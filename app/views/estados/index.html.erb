@@ -1,0 +1,46 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Estados</h1>
+
+
+<%= search_form_for @q, remote: true do |f| %>
+  <%= f.label :nome_cont, 'Nome' %>
+  <%= f.search_field :nome_cont %>
+  </br>
+  <%= f.label :sigla_cont, 'Sigla' %>
+  <%= f.search_field :sigla_cont %>
+  </br>
+  <%= f.submit 'Filtrar', class: 'btn btn-primary' %>
+<% end %>
+<%= button_to 'Limpar Filtros', clear_filters_estados_path, method: :get, class: 'btn btn-secondary', style: 'margin-left: 10px;' %>
+</br>
+<div id="estados">
+<table class="table"> 
+
+  <thead>
+    <tr>
+      <th scope="col">Nome</th>
+      <th scope="col">Sigla</th>
+      <th scope="col">Editar</th>
+      <th scope="col">Excluir</th>
+    </tr>
+  </thead>
+
+  <tbody>
+   <% @estados.each do |estado| %>
+        <tr>
+          <td><%= estado.nome %></td>
+          <td><%= estado.sigla %></td>
+          <td><%= button_to 'Editar', edit_estado_path(estado), method: 'get', class: 'btn btn-primary'%></td>
+          <td><%= button_to 'Remover',  estado_path(estado), method: 'delete', data: { confirm: 'Deseja mesmo deletar esse registro?' }, class: 'btn btn-danger'%></td>    
+        </tr>
+    <% end %>
+
+  </tbody>
+
+</table>
+<%== pagy_nav(@pagy) =%>
+
+</div>
+</br>
+<%= link_to "Cadastrar", new_estado_path, class: 'btn btn-success' %>
