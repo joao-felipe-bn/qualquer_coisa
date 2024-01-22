@@ -2,18 +2,46 @@
 
 <h1>Estados</h1>
 
+<div id="filter-accordion" class="accordion">
+  <div class="card">
+    <div class="card-header" id="filter-heading">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#filter-collapse" aria-expanded="true" aria-controls="filter-collapse">
+          Filtros
+        </button>
+      </h2>
+    </div>
 
-<%= search_form_for @q, remote: true do |f| %>
-  <%= f.label :nome_cont, 'Nome' %>
-  <%= f.search_field :nome_cont %>
-  </br>
-  <%= f.label :sigla_cont, 'Sigla' %>
-  <%= f.search_field :sigla_cont %>
-  </br>
-  <%= f.submit 'Filtrar', class: 'btn btn-primary' %>
-<% end %>
-<%= button_to 'Limpar Filtros', clear_filters_estados_path, method: :get, class: 'btn btn-secondary', style: 'margin-left: 10px;' %>
+    <div id="filter-collapse" class="collapse" aria-labelledby="filter-heading" data-parent="#filter-accordion">
+      <div class="card-body">
+      <%= search_form_for @q, remote: true do |f| %>
+        <table>
+          <tr>
+            <td><%= f.label :nome_cont, 'Nome' %></td>
+            <td><%= f.search_field :nome_cont %></td>
+          </tr>
+          <tr>
+            <td><%= f.label :sigla_cont, 'Sigla' %></td>
+            <td><%= f.search_field :sigla_cont %></td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <%= f.submit 'Filtrar', class: 'btn btn-primary' %>
+              <%= link_to 'Limpar Filtros', clear_filters_estados_path, method: :get, class: 'btn btn-secondary', style: 'margin-left: 10px;' %>
+            </td>
+          </tr>
+        </table>
+      <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
 </br>
+<%= link_to "Cadastrar", new_estado_path, class: 'btn btn-success' %>
+</br></br>
+
+
 <div id="estados">
 <table class="table"> 
 
