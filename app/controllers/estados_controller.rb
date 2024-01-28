@@ -23,19 +23,51 @@ class EstadosController < ApplicationController
   end
 
   # POST /estados or /estados.json
+  # def create
+  #   @estado = Estado.new(estado_params)
+
+  #   respond_to do |format|
+  #     if @estado.save
+  #       format.html { redirect_to estado_url(@estado), notice: "Estado criado com sucesso!" }
+  #       format.json { render :show, status: :created, location: @estado }
+  #     else
+  #       format.html { render :new, status: :unprocessable_entity }
+  #       format.json { render json: @estado.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
+
   def create
+    p "EstadosController#create"
+    p "estado params: ",estado_params
     @estado = Estado.new(estado_params)
 
     respond_to do |format|
       if @estado.save
+        flash.now[:notice] = "Estado #{@estado.id} Criado!"
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.update('new_estado', partial: 'estados/form', locals: { estado: Estado.new }),
+            turbo_stream.prepend('estados', partial: 'estados/estado', locals: { estado: @estado }),
+            render_turbo_flash,
+          ]
+        end
         format.html { redirect_to estado_url(@estado), notice: "Estado criado com sucesso!" }
-        format.json { render :show, status: :created, location: @estado }
+        # format.json { render :show, status: :created, location: @estado }
       else
+        # flash.now[:alert] = "Erro ao incluir estado!"
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.update('new_estado', partial: 'estados/form', locals: { estado: @estado }),
+            render_turbo_flash,
+          ]
+        end
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @estado.errors, status: :unprocessable_entity }
+        # format.json { render json: @estado.errors, status: :unprocessable_entity }
       end
     end
   end
+
 
   # PATCH/PUT /estados/1 or /estados/1.json
   def update
