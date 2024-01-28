@@ -60,15 +60,19 @@
           <td><%= estado.nome %></td>
           <td><%= estado.sigla %></td>
           <td><%= button_to 'Editar', edit_estado_path(estado), method: 'get', class: 'btn btn-primary'%></td>
-          <td><%= button_to 'Remover',  estado_path(estado), method: 'delete', data: { confirm: 'Deseja mesmo deletar esse registro?' }, class: 'btn btn-danger'%></td>    
+          <td><%= button_to 'Remover',  estado_path(estado), method: 'delete', data: { turbo_confirm: "Deseja mesmo deletar esse registro?" }, class: 'btn btn-danger'%></td>  
         </tr>
     <% end %>
 
   </tbody>
 
 </table>
-<%== pagy_nav(@pagy) =%>
+
+<%== pagy_bootstrap_nav(@pagy) %>
 
 </div>
+
+
+
 </br>
 <%= link_to "Cadastrar", new_estado_path, class: 'btn btn-success' %>
